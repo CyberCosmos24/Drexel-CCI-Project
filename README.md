@@ -11,3 +11,4 @@
 
 ## Members 
 - Ajay Kalra 
+- Daniel Quillen
