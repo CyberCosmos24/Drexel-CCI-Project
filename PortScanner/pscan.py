@@ -4,32 +4,33 @@
 
 import socket  
 
+import sys
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
  
-# or host
+
 target = input('What you want to scan?: ')
- 
-# next line gives us the ip address
-# of the target
+
 ip = socket.gethostbyname(target)
 print('Starting scan on host:', ip)
  
 # function for scanning ports
  
  
-def port_scan(port):
-    try:
-        s.connect((ip, port))
-        return True
-    except:
-        return False
- 
+try:
+    for port in range(1,1025):  
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        result = sock.connect_ex((ip, port))
+        if result == 0:
+            print("Port {}: 	 Open".format(port))
+        sock.close()
 
-
-for port in range(8080):
-    if port_scan(port):
-        print(f'port {port} is open')
-    else:
-        print(f'port {port} is closed')
+except KeyboardInterrupt:
+    print ("You pressed Ctrl+C")
+    sys.exit()
+except socket.gaierror:
+        print("\n Hostname not correct")
+        sys.exit()
+except socket.error:
+        print("\ Server not working")
+        sys.exit()
 
