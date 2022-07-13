@@ -14,3 +14,5 @@
 ## Members 
 - Ajay Kalra 
 - Daniel Quillen
+- Justin Booker 
+- Jonathan Jackson 
