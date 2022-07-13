@@ -8,29 +8,29 @@ import sys
 
  
 
-target = input('What you want to scan?: ')
+target = input('Enter the host to be scanned: ')
+import threading
+import socket
 
-ip = socket.gethostbyname(target)
-print('Starting scan on host:', ip)
- 
-# function for scanning ports
- 
- 
-try:
-    for port in range(1,1025):  
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        result = sock.connect_ex((ip, port))
-        if result == 0:
-            print("Port {}: 	 Open".format(port))
-        sock.close()
 
-except KeyboardInterrupt:
-    print ("You pressed Ctrl+C")
-    sys.exit()
-except socket.gaierror:
-        print("\n Hostname not correct")
-        sys.exit()
-except socket.error:
-        print("\ Server not working")
-        sys.exit()
 
+def portscan(port):
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(0.5)# 
+
+    try:
+        con = s.connect((target,port))
+
+        print('Port :',port,"is open.")
+
+        con.close()
+    except: 
+        pass
+r = 1 
+for x in range(1,100): 
+
+    t = threading.Thread(target=portscan,kwargs={'port':r}) 
+
+    r += 1     
+    t.start() 
