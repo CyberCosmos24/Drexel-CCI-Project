@@ -6,7 +6,9 @@
 
 
 ## Features 
-
+- Port Scanner 
+- IP-Lookup
+- Password Cracker
 
 
 ## Members 
