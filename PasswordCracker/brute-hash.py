@@ -15,7 +15,7 @@ def guess(algo, password, number):
 			attempts += 1
 			raw_guess = ''.join(guess)
 			h = hashlib.new(algo)
-			h.update(password)
+			h.update(password.encode('utf-8'))
 			guess = h.hexdigest()
 			if guess == password:
 				return 'Original Password is {} found in {} guesses.'.format(raw_guess, attempts)
@@ -36,4 +36,10 @@ if len(sys.argv) >= 4:
 			print(algo)
 # If the user didn't enter enough arguments
 else:
-	print('Enter the hash algorithm then the hash to crack and then the max length of the password as arguments.')
+	algoList = "Supported Hash Algorithms: "
+	for algo in acceptedAlgos:
+		print(algo.upper())
+	algorithm = input("Hash Algorithm: ")
+	hashToCrack = input("Hash to Crack: ")
+	maxPasswordLength = input("Max Password Length: ")
+	print(guess(algorithm, hashToCrack, maxPasswordLength))
