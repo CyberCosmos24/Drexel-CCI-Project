@@ -10,6 +10,7 @@ This is a muti-tool that gets you started in your cyber security path.
 - IP-Lookup
 - Password Cracker
 - Hash Cracker
+- HTTP Requests
 
 
 ## Members 
