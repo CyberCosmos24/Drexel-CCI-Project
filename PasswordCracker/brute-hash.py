@@ -4,19 +4,19 @@ import sys
 import hashlib
 
 # The function to guess the password by brute force
-def guess(algo, password, number):
+def guess(algo, hashedPassword, number, noise):
 	chars = string.ascii_letters + string.digits + string.punctuation
 	attempts = 0
 	for password_length in range(1,int(number)+1):
 		for guess in itertools.product(chars, repeat=password_length):
 			attempts += 1
 			raw_guess = ''.join(guess)
-			h = hashlib.new("sha256")
+			h = hashlib.new(algo)
 			h.update(raw_guess.encode('utf-8'))
 			guess = h.hexdigest()
-			if guess == password:
-				return 'Original Password is \'{}\' found in {} guesses.'.format(raw_guess, attempts)
-			else:
+			if guess == hashedPassword:
+			    print("Original Password is {} found in {} guesses.".format(raw_guess, attempts))
+			elif noise == "verbose":
 				print('Guess #{} is {} hashed as {}.'.format(attempts, raw_guess, h.hexdigest()))
 
 # Print out the supported hash algorithms for this platform
@@ -33,5 +33,11 @@ while not algorithm.lower() in hashlib.algorithms_available:
 # Get the hash to crack and the max length to stop at
 hashToCrack = input("Hash to Crack: ")
 maxPasswordLength = input("Max Password Length: ")
+
+# Get how much output we should send
+noise = ""
+while not (noise.lower() == "min" or noise.lower() == "verbose"):
+    noise = input("Ouput Level (min, verbose):")
+
 # Run the guesser
-print(guess(algorithm.lower(), hashToCrack, maxPasswordLength))
+guess(algorithm.lower(), hashToCrack, maxPasswordLength, noise.lower())
