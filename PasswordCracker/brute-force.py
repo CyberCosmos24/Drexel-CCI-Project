@@ -11,4 +11,4 @@ def guess(passLength):
 			print(guess)
 length = input("Max Password Length: ")
 print("Sending all passwords up to {} characters".format(length)) 
-print(guess(length))
+guess(length)
