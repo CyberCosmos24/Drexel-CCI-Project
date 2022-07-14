@@ -2,7 +2,7 @@
 
 
 ## Description 
-This is a muti-tool that give you the basic tools to help you with enumuration 
+This is a muti-tool that give you the basic tools to help you with enumuration.
 
 
 ## Features 
