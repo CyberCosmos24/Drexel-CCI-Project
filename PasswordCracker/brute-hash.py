@@ -5,7 +5,7 @@ import hashlib
 
 # The function to guess the password by brute force
 def guess(algo, password, number):
-	chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
+	chars = string.ascii_letters + string.digits + string.punctuation
 	attempts = 0
 	for password_length in range(1,int(number)+1):
 		for guess in itertools.product(chars, repeat=password_length):
