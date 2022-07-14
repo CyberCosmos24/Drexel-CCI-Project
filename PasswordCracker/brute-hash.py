@@ -16,8 +16,10 @@ def guess(algo, hashedPassword, number, noise):
 			guess = h.hexdigest()
 			if guess == hashedPassword:
 			    print("Original Password is {} found in {} guesses.".format(raw_guess, attempts))
+			    return True
 			elif noise == "verbose":
 				print('Guess #{} is {} hashed as {}.'.format(attempts, raw_guess, h.hexdigest()))
+	return False
 
 # Print out the supported hash algorithms for this platform
 algoList = "Supported Hash Algorithms:"
@@ -30,9 +32,13 @@ algorithm = ""
 while not algorithm.lower() in hashlib.algorithms_available:
     algorithm = input("Enter a supported algorithm:")
     
-# Get the hash to crack and the max length to stop at
+# Get the hash to crack
 hashToCrack = input("Hash to Crack: ")
-maxPasswordLength = input("Max Password Length: ")
+
+# Keep asking for the password length until in proper range
+maxPasswordLength = 0
+while maxPasswordLength < 2:
+    maxPasswordLength = int(input("Max Password Length (min 2): "))
 
 # Get how much output we should send
 noise = ""
@@ -40,4 +46,5 @@ while not (noise.lower() == "min" or noise.lower() == "verbose"):
     noise = input("Ouput Level (min, verbose):")
 
 # Run the guesser
-guess(algorithm.lower(), hashToCrack, maxPasswordLength, noise.lower())
+if not guess(algorithm.lower(), hashToCrack, maxPasswordLength, noise.lower()):
+    print("Password not found.")
