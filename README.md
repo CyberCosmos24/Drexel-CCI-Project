@@ -2,7 +2,7 @@
 
 
 ## Description 
-This is a muti-tool that gets you started in your cyber security path. 
+This is a muti-tool that give you the basic tools to help you with enumuration 
 
 
 ## Features 
@@ -13,8 +13,12 @@ This is a muti-tool that gets you started in your cyber security path.
 - HTTP Requests
 
 
-## Members 
+## Contributors
+
+### Coding Team 
 - Ajay Kalra 
 - Daniel Quillen
+
+### Research Team
 - Justin Booker 
 - Jonathan Jackson 
