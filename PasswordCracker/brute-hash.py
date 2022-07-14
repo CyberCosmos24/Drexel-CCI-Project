@@ -20,17 +20,17 @@ def guess(algo, hashedPassword, number, noise):
 			elif noise == "verbose":
 				print('Guess #{} is {} hashed as {}.'.format(attempts, raw_guess, h.hexdigest()))
 	return False
-
+allOption = "UNKNOWN"
 # Print out the supported hash algorithms for this platform
 algoList = "Supported Hash Algorithms:"
 for algo in hashlib.algorithms_available:
-	algoList += "  " + algo.upper()
+	algoList += " " + algo.upper()
 print (algoList)
 
 # Keep asking until the user enters a supported hash algorithm
 algorithm = ""
-while not algorithm.lower() in hashlib.algorithms_available:
-    algorithm = input("Enter a supported algorithm:")
+while not algorithm.lower() in hashlib.algorithms_available and not algorithm.lower() == allOption.lower():
+    algorithm = input("Enter a supported algorithm or {}:".format(allOption))
     
 # Get the hash to crack
 hashToCrack = input("Hash to Crack: ")
@@ -45,6 +45,15 @@ noise = ""
 while not (noise.lower() == "min" or noise.lower() == "verbose"):
     noise = input("Ouput Level (min, verbose):")
 
-# Run the guesser
-if not guess(algorithm.lower(), hashToCrack, maxPasswordLength, noise.lower()):
+# Try all of the algorithm options
+if algorithm.lower() == allOption.lower():
+    # Try all of the algorithms
+    for algo in hashlib.algorithms_available:
+        print ("Trying algorithm {}".format(algo.upper()))
+        if guess(algo, hashToCrack, maxPasswordLength, noise.lower()):
+            break
+        else:
+            print("Password not found.")
+# Run the guesser normally
+elif not guess(algorithm.lower(), hashToCrack, maxPasswordLength, noise.lower()):
     print("Password not found.")
