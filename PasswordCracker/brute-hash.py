@@ -10,14 +10,17 @@ def guess(algo, password, number):
 		for guess in itertools.product(chars, repeat=password_length):
 			attempts += 1
 			raw_guess = ''.join(guess)
-			if algo == "sha256":
-				guess = hashlib.sha256(raw_guess.encode('utf-8')).hexdigest()
-				if guess == password:
-					return 'Password is {} found in {} guesses.'.format(raw_guess, attempts)
-				else:
-					print('{} guesses'.format(attempts))
+                        match algo:
+                                case "sha256":
+				        guess = hashlib.sha256(raw_guess.encode('utf-8')).hexdigest()
+                                case "sha512":
+				        guess = hashlib.sha512(raw_guess.encode('utf-8')).hexdigest()
+                                case _:
+                                        guess = raw_guess
+			if guess == password:
+				return 'Original Password is {} found in {} guesses.'.format(raw_guess, attempts)
 			else:
-				return 'Hash algorithm not supported. Enter \'sha256\''
+				print('Guess {} is {}'.format(attempts, guess))
 n = len(sys.argv)
 if n == 4:
 	print(guess(sys.argv[1], sys.argv[2], sys.argv[3]))
