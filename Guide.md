@@ -21,3 +21,10 @@ Then run the file `run.sh`
 ```
 bash run.sh
 ```
+
+## Common Issues
+
+### Bash Script Error 
+- If the bash script is giving you errors run `dos2unix run.sh` and the errors will be fixed. 
+
+
