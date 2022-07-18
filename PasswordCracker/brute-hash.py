@@ -1,22 +1,31 @@
-import itertools
-import string
-import sys
-import hashlib
+import itertools # For efficient looping
+import string # For string manipulation and characters
+import hashlib # For hashing the password guesses
 
-# The function to guess the password by brute force
+# The function to guess the password by brute force and hash it
 def guess(algo, hashedPassword, number, noise):
+	# Get the possible options
 	chars = string.ascii_letters + string.digits + string.punctuation
+	# The counter for the attempts we've made
 	attempts = 0
+	# Loop through the password lengths
 	for password_length in range(1,int(number)+1):
+		# Loop through all of the guess options for this length
 		for guess in itertools.product(chars, repeat=password_length):
+			# Increment the counter
 			attempts += 1
+			# Create the password guess
 			raw_guess = ''.join(guess)
+			# Set the hashing algorithm
 			h = hashlib.new(algo)
+			# Hash the guess
 			h.update(raw_guess.encode('utf-8'))
 			guess = h.hexdigest()
+			# Check if the hashed guess matches the hashed password
 			if guess == hashedPassword:
 			    print("Original Password is {} found in {} guesses.".format(raw_guess, attempts))
 			    return True
+			# Otherwise print out if verbose is enabled
 			elif noise == "verbose":
 				print('Guess #{} is {} hashed as {}.'.format(attempts, raw_guess, h.hexdigest()))
 	return False
@@ -35,10 +44,17 @@ while not algorithm.lower() in hashlib.algorithms_available and not algorithm.lo
 # Get the hash to crack
 hashToCrack = input("Hash to Crack: ")
 
-# Keep asking for the password length until in proper range
-maxPasswordLength = 0
-while maxPasswordLength < 2:
-    maxPasswordLength = int(input("Max Password Length (min 2): "))
+# Keep asking for the min password length until it's a number >= 2
+mPL = ""
+while not mPL.isnumeric or int(mPL) < 2:
+    mPL = input("Min Password Length (min 2): ")
+minPasswordLength = int(mPL)
+
+# Keep asking for the min password length until it's a number >= the min password length
+mPL = ""
+while not mPL.isnumeric or int(mPL) < minPasswordLength:
+    mPL = input("Max Password Length (min {}): ".format(minPasswordLength))
+maxPasswordLength = int(mPL)
 
 # Get how much output we should send
 noise = ""
@@ -54,6 +70,6 @@ if algorithm.lower() == allOption.lower():
             break
         else:
             print("Password not found.")
-# Run the guesser normally
+# Run the guesser normally with the input algorithm
 elif not guess(algorithm.lower(), hashToCrack, maxPasswordLength, noise.lower()):
     print("Password not found.")
