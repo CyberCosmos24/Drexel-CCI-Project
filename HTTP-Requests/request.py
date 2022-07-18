@@ -7,7 +7,7 @@ print("3 - DELETE Method")
 web = input("Enter the url: ")
 m = input("Enter the method number you want to use: ")
 
-
+# Sends a request to the desired website 
 if m == 1:
     r = requests.get(web)
     print("Status Code:", r.status_code)
