@@ -19,18 +19,18 @@ def guess(minPassLength, maxPassLength):
 			print(guess)
 
 ### Get the min length and make sure it's a number
-ml = "" # The string the user inputs
+ml = "0" # The string the user inputs
 # While the input isn't a number or is less than 1, ask again
 while not ml.isnumeric() or int(ml) < 1:
 	ml = input("Min Password Length: ")
 min_length = int(ml) # The number we get from the user input
 
 # Get the max length and make sure it's a number
-l = "" # The string the user inputs
+l = "0" # The string the user inputs
 # While the input isn't a number or is less than the min length, ask again
-while not length.isnumeric or int(length) < min_length:
-	length = input("Max Password Length: ")
-length = 0 # The number we get from the user input
+while not l.isnumeric or int(l) < min_length:
+	l = input("Max Password Length: ")
+length = int(l) # The number we get from the user input
 
 # Let the user know what we're doing
 print("Sending all passwords from {} characters to {} characters".format(min_length, length)) 
