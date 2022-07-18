@@ -25,7 +25,7 @@ case $tool in
     ;;
 
   5)
-    python3 HTTP-Requests/brute-hash.py
+    python3 PasswordCracker/brute-hash.py
     ;;
     
   6)
