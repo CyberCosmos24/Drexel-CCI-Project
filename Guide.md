@@ -10,7 +10,7 @@
 To install this tool you will need to use git to clone the package into the folder 
 
 ```
-git cloone https://github.com/CyberCosmos24/Drexel-CCI-Project.git 
+git clone https://github.com/CyberCosmos24/Drexel-CCI-Project.git 
 ```
 After that you want to go `Drexel-CCI-Project` that is now created 
 
