@@ -45,13 +45,13 @@ while not algorithm.lower() in hashlib.algorithms_available and not algorithm.lo
 hashToCrack = input("Hash to Crack: ")
 
 # Keep asking for the min password length until it's a number >= 2
-mPL = ""
+mPL = "0"
 while not mPL.isnumeric or int(mPL) < 2:
     mPL = input("Min Password Length (min 2): ")
 minPasswordLength = int(mPL)
 
 # Keep asking for the min password length until it's a number >= the min password length
-mPL = ""
+mPL = "0"
 while not mPL.isnumeric or int(mPL) < minPasswordLength:
     mPL = input("Max Password Length (min {}): ".format(minPasswordLength))
 maxPasswordLength = int(mPL)
