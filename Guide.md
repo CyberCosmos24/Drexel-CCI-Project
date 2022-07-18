@@ -17,14 +17,11 @@ After that you want to go `Drexel-CCI-Project` that is now created
 ```
 cd Drexel-CCI-Project
 ```
-Then run the file `run.sh` 
+Then run the file `windows.sh` if you are on Windows 
 ```
-bash run.sh
+bash windows.sh
 ```
-
-## Common Issues
-
-### Bash Script Error 
-- If the bash script is giving you errors run `dos2unix run.sh` and the errors will be fixed. 
-
-
+or `unix.sh` if you are on Mac or Linux
+```
+bash unix.sh
+```
