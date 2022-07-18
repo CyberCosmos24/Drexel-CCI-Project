@@ -33,7 +33,9 @@ subs = {
 	"z": ["z","Z"]
 }
 
-words = ["Apple"]
+words = []
+with open("words.txt") as wordlist:
+    words = wordlist.readlines()
 
 for word in words:
     word = word.lower()
@@ -42,15 +44,16 @@ for word in words:
     combinations = subs[word[0]]
     temp = []
     # Loop through the remaining letters
-    for i in range(1,5):
-        print("Loop {} \n\n".format(i))
+    for i in range(1,len(word)):
     	# Loop through the subs for this letter
         for j in range(0,len(combinations)):
         	# Loop throught the combinations in the array
             for sub in subs[word[i]]:
             	# Add a combo that is the current combo + the current sub
                 temp.append(combinations[j] + sub)
-                print(combinations[j])
+        # Store the current combinations and clear the temp array
         combinations = temp
+        temp = []
     print("Done")
     print(combinations)
+    combinations = []
