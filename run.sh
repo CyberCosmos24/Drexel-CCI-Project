@@ -26,6 +26,10 @@ case $tool in
   5)
     python3 HTTP-Requests/request.py
     ;;
+    
+  6)
+    python3 HTTP-Requests/request.py
+    ;;
 
   *)
     ;;
