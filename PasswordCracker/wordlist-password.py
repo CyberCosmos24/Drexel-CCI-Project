@@ -1,5 +1,3 @@
-# coding: utf-8
-# Your code here!
 import time
 import math
 
@@ -233,6 +231,22 @@ def very_fast_crack(password):
             print("The password is: {}. It is a variation on one of the top {} most common passwords.".format(word, counter))
             return True
     return False
+
+def format_time(time):
+    if time > 86400:
+        time /= 86400
+        return str(time) + " Days"
+    elif time > 3600:
+        time /= 3600
+        return str(time) + " Hours"
+    elif time > 60:
+        time /= 60;
+        return str(time) + " Minutes"
+    else:
+        return str(time) + " Seconds"
+    
+# START AREA
+    
 # Get the users password and try to crack it
 password = input("Enter the password you'd like to crack: ")
 print("\n")
@@ -257,25 +271,26 @@ start = time.time()
 
 if mode == "slow" or mode == "s":
     # Slow mode
-    print("Starting slow mode")
+    print("Starting Slow Mode")
+    print("We're working on Slow Mode, but it's not done yet. Try another mode...")
 elif mode == "medium" or mode == "m":
     # Medium mode
-    print("Starting medium mode")
+    print("Starting Medium Mode")
     if medium_crack(password):
-        print("It was found after {} seconds".format(time.time() - start))
+        print("It was found after {}.".format(format_time(time.time() - start)))
     else:
-        print("Password not found after {} seconds.".format(time.time() - start))
+        print("Password not found after {}.".format(format_time(time.time() - start)))
 elif mode == "fast" or mode == "f":
     # Fast mode
-    print("Starting fast mode")
+    print("Starting Fast Mode")
     if fast_crack(password):
-        print("It was found after {} seconds".format(time.time() - start))
+        print("It was found after {}.".format(format_time(time.time() - start)))
     else:
-        print("Password not found after {} seconds.".format(time.time() - start))
+        print("Password not found after {}.".format(format_time(time.time() - start)))
 elif mode == "very" or mode == "very fast" or mode == "veryfast" or mode == "v":
     # Very fast  mode
-    print("Starting very fast mode")
+    print("Starting Very Fast Mode")
     if very_fast_crack(password):
-        print("It was found after {} seconds".format(time.time() - start))
+        print("It was found after {}.".format(format_time(time.time() - start)))
     else:
-        print("Password not found after {} seconds.".format(time.time() - start))
+        print("Password not found after {}.".format(format_time(time.time() - start)))
