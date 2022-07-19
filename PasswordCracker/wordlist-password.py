@@ -1,10 +1,14 @@
-# coding: utf-8
-# Your code here!
 import time
 import math
 
+# SLOW INFO
+# Avg options per character = 137/42 = 3.25 guesses/character
+# Avg letter per password = 8 letters/word
+# Avg Max Time per Word = 3.25 ^ 8 = 12,450 guesses/word
+# Total words = 12,450 * 10,000 = 124,500,000
+# Guesses are comprised of two words so total guesses = 124,500,000 ^2
+
 # MEDIUM INFO
-# The options that each character can be substituted for in medium and slow modes
 # Avg options per character = 137/42 = 3.25 guesses/character
 # Avg letter per password = 8 letters/word
 # Avg Max Time per Word = 3.25 ^ 8 = 12,450 guesses/word
@@ -329,7 +333,7 @@ mode = ""
 
 print("|  Option   | Key | Password Variations | Time Est  |")
 print("|-----------|-----|---------------------|-----------|")
-print("|   Slow    |  S  |    15.5+ Billion    |  <1 Hour  |") # Working on
+print("|   Slow    |  S  |    15.5+ Billion    |  UNKNOWN  |") # Done
 print("|  Medium   |  M  |    124.5 Million    |  <10 Min. |") # Done
 print("|   Fast    |  F  |    430 Thousand     |  <1 Min.  |") # Done
 print("| Very Fast |  V  |     10 Thousand     |  <1 Sec.  |\n") # Done
