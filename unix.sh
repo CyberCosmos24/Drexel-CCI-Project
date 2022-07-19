@@ -30,7 +30,7 @@ case $tool in
     ;;
   6) 
     python3 PasswordCracker/wordlist-password.py 
-    
+    ;;
   7)
     python3 HTTP-Requests/request.py
     ;;
