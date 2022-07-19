@@ -12,10 +12,11 @@ import math
 # Total time (at 300,000 guesses/sec) = ~7 min
 
 # FAST INFO
-# The avg options per letter = 87/53 = 1.6
+# The avg options per character = 87/53 = 1.6 guesses/character
+# Avg letter per password = 8 letters/word
 # The avg options per word = 1.6 ^ 8 = 43
-# est options total = 43 * 10,000 = 430,000
-# 430,000 / 300,000 = 1.43 seconds?minutes?
+# est options total = 43 * 10,000 = 430,000 guesses
+# Total time (at 300,000 guesses/sec) = ~1.43 seconds
 
 # VERY FAST INFO
 # 10,000 guesses
