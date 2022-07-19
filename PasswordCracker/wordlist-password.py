@@ -3,8 +3,6 @@
 import time
 import math
 
-filename = "list.txt"
-
 # MEDIUM INFO
 # The options that each character can be substituted for in medium and slow modes
 # Avg options per character = 137/42 = 3.25 guesses/character
@@ -14,7 +12,10 @@ filename = "list.txt"
 # Total time (at 300,000 guesses/sec) = ~7 min
 
 # FAST INFO
-#
+# The avg options per letter = 87/53 = 1.6
+# The avg options per word = 1.6 ^ 8 = 43
+# est options total = 43 * 10,000 = 430,000
+# 430,000 / 300,000 = 1.43 seconds?minutes?
 
 # VERY FAST INFO
 # 10,000 guesses
@@ -66,7 +67,7 @@ subs_ms = {
 	"?": ["?"] # 137
 }
 
-# The substitutions for fast mode - a slimmer set with far fewer options
+# The substitutions for fast mode - a slimmer set with far fewer options 87/53 = 
 subs_f = {
 	"a": ["a","A","@","4"],
 	"b": ["b","B"],
@@ -91,7 +92,7 @@ subs_f = {
 	"u": ["u","U"],
 	"v": ["v","V"],
 	"w": ["w","W"],
-	"x": ["x","Z"],
+	"x": ["x","X"],
 	"y": ["y","Y"],
 	"z": ["z","Z","2"],
 	".": ["."],
@@ -119,23 +120,26 @@ subs_f = {
     "6": ["6"],
     "7": ["7"],
     "8": ["8"],
-    "9": ["9"]
+    "9": ["9"] # 87
 }
 
 # The very fast mode has no substitutions
 
 # Get the words from the wordlist
-words = []
-with open("words.txt") as wordlist:
-    words = wordlist.readlines()
+words_let = []
+with open("let.txt") as wordlist:
+    words_let = wordlist.readlines()
 
-# TODO: A function to spit out the password options for slow speed
+words_num = []
+with open("num.txt") as wordlist:
+    words_num = wordlist.readlines()
+# TODO: A function to check the password options for slow speed
 
 # A function to check with the password options for medium speed
 def medium_crack(password):
     counter = 0
     # Loop through the words
-    for word in words:
+    for word in words_let:
 		# Change the word to lowercase and remove any newlines
         word = word.lower().strip('\n')
 		#print("Trying " + word + " with various substitutions.")
@@ -176,7 +180,7 @@ def medium_crack(password):
 def fast_crack(password):
     counter = 0
     # Loop through the words
-    for word in words:
+    for word in words_num:
 		# Change the word to lowercase and remove any newlines
         word = word.lower().strip('\n')
 		#print("Trying " + word + " with various substitutions.")
@@ -216,7 +220,7 @@ def fast_crack(password):
 # A function to check with the 10,000 most common passwords
 def very_fast_crack(password):
     counter = 0
-    for word in words:
+    for word in words_num:
         if password == word:
             if counter > 100:
                 counter = math.ceil(counter / 100) * 100
