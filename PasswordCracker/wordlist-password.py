@@ -1,5 +1,6 @@
 # IMPORTANT: If you want to run this script by itself, you MUST change where it opens the files from (currently it is setup to open the files from the core directory)
-# That is: with open("PasswordCracker/let.txt") -> with open("let.txt")
+# That is, change: with open("PasswordCracker/let.txt") -> with open("let.txt")
+# And change:     with open("PasswordCracker/num.txt") -> with open("num.txt")
 
 import time
 import math
@@ -143,11 +144,14 @@ subs_f = {
 
 # The very fast mode has no substitutions
 
-# Get the words from the wordlist
+# Import the wordlists (see note at top about file access)
+
+# To run this file directly change:     with open("PasswordCracker/let.txt") -> with open("let.txt")
 words_let = []
 with open("PasswordCracker/let.txt") as wordlist:
     words_let = wordlist.readlines()
 
+# To run this file directly change:     with open("PasswordCracker/num.txt") -> with open("num.txt")
 words_num = []
 with open("PasswordCracker/num.txt") as wordlist:
     words_num = wordlist.readlines()
@@ -217,8 +221,9 @@ def slow_crack(password):
                             return True
                         print("The password is: {}. It is a variation on one of the top {} most common passwords.".format(wo+wi, counter))
                         return True
-                    else:
-                        print("Trying " + wo+wi)
+			# Enable for more output
+                    #else:
+                        #print("Trying " + wo+wi)
     		# Clear the combo arrays for the next word
             wordoCombos = []
             wordiCombos = []
