@@ -22,7 +22,7 @@ case $tool in
     ;;
 
   4)
-    python3 PasswordCracker/brute-force.py
+    python3 PasswordCracker/brute-password.py
     ;;
 
   5)
