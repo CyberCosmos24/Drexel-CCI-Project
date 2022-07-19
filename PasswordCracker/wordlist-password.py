@@ -367,7 +367,10 @@ start = time.time()
 if mode == "slow" or mode == "s":
     # Slow mode
     print("Starting Slow Mode")
-    slow_crack(password)
+	if medium_crack(password):
+        print("It was found after {}.".format(format_time(time.time() - start)))
+    else:
+        print("Password not found after {}.".format(format_time(time.time() - start)))
 elif mode == "medium" or mode == "m":
     # Medium mode
     print("Starting Medium Mode")
