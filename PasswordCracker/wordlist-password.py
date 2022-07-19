@@ -244,7 +244,7 @@ print("|  Option   | Key | Password Variations | Time Est  |")
 print("|-----------|-----|---------------------|-----------|")
 print("|   Slow    |  S  |     ?? Million+     |  ~45 Min. |") # TODO
 print("|  Medium   |  M  |    124.5 Million    |  <10 Min. |") # Done
-print("|   Fast    |  F  |     ?? Million      |  <5 Min.  |") # Almost
+print("|   Fast    |  F  |    430 Thousand     |  <1 Min.  |") # Done
 print("| Very Fast |  V  |     10 Thousand     |  <1 Sec.  |\n") # Done
 # The accepted modes
 accModes = ["slow","s","medium","m","fast","f","very fast","veryfast","very","v"]
