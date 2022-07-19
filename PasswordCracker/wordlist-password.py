@@ -1,3 +1,6 @@
+# IMPORTANT: If you want to run this script by itself, you MUST change where it opens the files from (currently it is setup to open the files from the core directory)
+# That is: with open("PasswordCracker/let.txt") -> with open("let.txt")
+
 import time
 import math
 
@@ -132,11 +135,11 @@ subs_f = {
 
 # Get the words from the wordlist
 words_let = []
-with open("let.txt") as wordlist:
+with open("PasswordCracker/let.txt") as wordlist:
     words_let = wordlist.readlines()
 
 words_num = []
-with open("num.txt") as wordlist:
+with open("PasswordCracker/num.txt") as wordlist:
     words_num = wordlist.readlines()
     
 # A function to check the password options for slow speed -- double up passwords
