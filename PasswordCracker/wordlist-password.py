@@ -5,8 +5,23 @@ import math
 
 filename = "list.txt"
 
+# MEDIUM INFO
 # The options that each character can be substituted for in medium and slow modes
-subs_ms = { # Avg 137/42 = 3.25
+# Avg options per character = 137/42 = 3.25 guesses/character
+# Avg letter per password = 8 letters/word
+# Avg Max Time per Word = 3.25 ^ 8 = 12,450 guesses/word
+# Total guesses = 12,450 * 10,000 = 124,500,000
+# Total time (at 300,000 guesses/sec) = ~7 min
+
+# FAST INFO
+#
+
+# VERY FAST INFO
+# 10,000 guesses
+# Total time (at 300,000 guesses/sec) = 1/3 sec
+
+# The options that each character can be substituted for in medium and slow modes
+subs_ms = { 
 	"a": ["a","A","@","4"],
 	"b": ["b","B"],
 	"c": ["c","C"],
@@ -220,12 +235,12 @@ print("\n")
 # The mode the user inputs
 mode = ""
 
-print("|  Option   | Key | Password Variations | Time Est |")
-print("|-----------|-----|---------------------|----------|")
-print("|   Slow    |  S  |     50 Million+     | ~45 Min. |")
-print("|  Medium   |  M  |     ~8 Million      | ~30 Min. |")
-print("|   Fast    |  F  |     ~5 Million      | ~15 Min. |")
-print("| Very Fast |  V  |     10 Thousand     |  1 Min.  |\n")
+print("|  Option   | Key | Password Variations | Time Est  |")
+print("|-----------|-----|---------------------|-----------|")
+print("|   Slow    |  S  |     ?? Million+     |  ~45 Min. |") # TODO
+print("|  Medium   |  M  |    124.5 Million    |  <10 Min. |") # Done
+print("|   Fast    |  F  |     ?? Million      |  <5 Min.  |") # Almost
+print("| Very Fast |  V  |     10 Thousand     |  <1 Sec.  |\n") # Done
 # The accepted modes
 accModes = ["slow","s","medium","m","fast","f","very fast","veryfast","very","v"]
 # While the mode is not accepted
