@@ -4,7 +4,8 @@ echo "2 - IP-Lookup"
 echo "3 - Geolocation-IP"
 echo "4 - Brute-Force"
 echo "5 - Brute-Hash"
-echo "6 - HTTP-Requests"
+echo "6 - Wordlist-Password"
+echo "7 - HTTP-Requests"
 echo "Enter the tool you want to use: "
 read tool;
 case $tool in
@@ -27,11 +28,14 @@ case $tool in
   5)
     python3 PasswordCracker/brute-hash.py
     ;;
+  6) 
+    python3 PasswordCracker/wordlist-password.py 
     
-  6)
+  7)
     python3 HTTP-Requests/request.py
     ;;
 
   *)
+    echo "Enter a vaild tool number"
     ;;
 esac
