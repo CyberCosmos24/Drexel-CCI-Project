@@ -156,12 +156,12 @@ subs_f = {
 
 # To run this file directly change:     with open("PasswordCracker/let.txt") -> with open("let.txt")
 words_let = []
-with open("let.txt") as wordlist:
+with open("PasswordCracker/let.txt") as wordlist:
     words_let = wordlist.readlines()
 
 # To run this file directly change:     with open("PasswordCracker/num.txt") -> with open("num.txt")
 words_num = []
-with open("num.txt") as wordlist:
+with open("PasswordCracker/num.txt") as wordlist:
     words_num = wordlist.readlines()
 
 
@@ -403,17 +403,20 @@ def fast_crack(password):
     return False
 
 def format_time(time):
+    # Round the time to be nicer if it's big enough
+    if time >= 0.0001:
+        time = round(time*10000)/10000
     if time > 86400:
         time /= 86400
-        return str(time) + " days"
+        return "~" + str(time) + " days"
     elif time > 3600:
         time /= 3600
-        return str(time) + " hours"
+        return "~" + str(time) + " hours"
     elif time > 60:
         time /= 60
-        return str(time) + " minutes"
+        return "~" + str(time) + " minutes"
     else:
-        return str(time) + " seconds"
+        return "~" + str(time) + " seconds"
     
 # START AREA
 print("Welcome to the password cracking test tool!")
