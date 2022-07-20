@@ -33,10 +33,6 @@ import math
 # est options total = 43 * 10,000 = 430,000 guesses
 # Total time (at 300,000 guesses/sec) = ~1.43 seconds
 
-# VERY FAST INFO -- To be removed
-# 10,000 guesses
-# Total time (at 300,000 guesses/sec) = 1/3 sec
-
 # The options that each character can be substituted for in medium and slow modes
 subs_s = { 
 	"a": ["a","A","@","4"],
@@ -165,8 +161,8 @@ with open("PasswordCracker/num.txt") as wordlist:
     
 # A function to check the password options for slow speed and double up passwords
 def very_slow_crack(password):
-    # First run medium_crack to go through the one word options - if it succeeds, it will log out info and we're done
-    if medium_crack(password):
+    # First run slow_crack to go through the one word options - if it succeeds, it will log out info and we're done
+    if slow_crack(password):
         return True
     # If it fails, we go to two word options
     counter = 0
@@ -279,6 +275,9 @@ def slow_crack(password):
 
 # A function to check the password options for fast speed and double up passwords
 def medium_crack(password):
+    # First run fast_crack to check the one word options
+    if fast_crack(password):
+        return True
     # If it fails, we go to two word options
     counter = 0
     # Loop through the words
@@ -340,12 +339,12 @@ def medium_crack(password):
                         print("The password is: {}. It is a variation on one of the top {} most common passwords.".format(wo+wi, counter))
                         return True
 			# Enable for more output
-                    #else:
-                        #print("Trying " + wo+wi)
+                    else:
+                        print("Trying " + wo+wi)
     		# Clear the combo arrays for the next word
             wordoCombos = []
             wordiCombos = []
-        return False
+    return False
 
 # A function to check with the password options for fast speed
 def fast_crack(password):
@@ -388,22 +387,6 @@ def fast_crack(password):
         combinations = []
     return False
 
-# A function to check with the 10,000 most common passwords
-def medium_crack(password):
-    counter = 0
-    for word in words_num:
-        if password == word:
-            if counter > 100:
-                counter = math.ceil(counter / 100) * 100
-            elif counter > 10:
-                counter = math.ceil(counter / 10) * 10
-            else:
-                print("The password is: {}. It is a variation on one of the top 10 most common passwords.".format(word))
-                return True
-            print("The password is: {}. It is a variation on one of the top {} most common passwords.".format(word, counter))
-            return True
-    return False
-
 def format_time(time):
     if time > 86400:
         time /= 86400
@@ -430,8 +413,8 @@ print("|  Option   | Key | Password Variations | Time Est  |")
 print("|-----------|-----|---------------------|-----------|")
 print("| Very Slow |  V  |    15.5+ Billion    |   Days    |")
 print("|   Slow    |  S  |    124.5 Million    |  ~7 Min.  |") 
-print("|  Medium   |  M  |    18.45 Million    |  <2 Min.  |")
-print("|   Fast    |  F  |    430 Thousand     | <1.5 Sec. |")
+print("|  Medium   |  M  |    18.45 Million    |  ~2 Min.  |")
+print("|   Fast    |  F  |    430 Thousand     |  ~2 Sec.  |")
 
 #print("| Very Fast |  V  |     10 Thousand     |  <1 Sec.  |\n") # Done
 # The accepted modes
@@ -446,7 +429,7 @@ start = time.time()
 if mode == "slow" or mode == "s":
     # Slow mode
     print("Starting Slow Mode")
-    if medium_crack(password):
+    if slow_crack(password):
         print("It was found after {}.".format(format_time(time.time() - start)))
     else:
         print("Password not found after {}.".format(format_time(time.time() - start)))
