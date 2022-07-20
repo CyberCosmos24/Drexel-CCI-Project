@@ -158,18 +158,18 @@ subs_f = {
 
 # To run this file directly change:     with open("PasswordCracker/let.txt") -> with open("let.txt")
 words_let = []
-with open("PasswordCracker/let.txt") as wordlist:
+with open("let.txt") as wordlist:
     words_let = wordlist.readlines()
 
 # To run this file directly change:     with open("PasswordCracker/num.txt") -> with open("num.txt")
 words_num = []
-with open("PasswordCracker/num.txt") as wordlist:
+with open("num.txt") as wordlist:
     words_num = wordlist.readlines()
 
 
 
 # A function to test a guess with brute force letters after it
-def test_password(password, guess, num_bf):
+def test_password_options(h, guess, num_bf):
     # All of the character otpions for brute forcing
     chars = string.ascii_letters + string.digits + string.punctuation
     for addition in itertools.product(chars, repeat=num_bf):
@@ -177,16 +177,26 @@ def test_password(password, guess, num_bf):
             addition = ''.join(addition)
 			# Combine it with the guess
             new_guess = guess + addition
+            # Set the hashing algorithm
+            hashl = hashlib.new(algorithm)
+            # Hash the guess
+            hashl.update(new_guess.encode('utf-8'))
+            hash_guess = hashl.hexdigest()
 			# Check the guess
-            if new_guess == password:
+            if hash_guess == h:
                 return True, new_guess
 	# None of the guesses worked
     return False, "Failed"
 
-def check_password(c,password,counter,bf):
+def check_hash(c,h,counter,bf):
     # If no brute force letters should be added, just check the password
     if bf == 0:
-        if c == password:
+        # Set the hashing algorithm
+        hashl = hashlib.new(algorithm)
+        # Hash the guess
+        hashl.update(c.encode('utf-8'))
+        hash_guess = hashl.hexdigest()
+        if hash_guess == h:
             if counter > 100:
                 counter = math.ceil(counter / 100) * 100
             elif counter > 10:
@@ -199,16 +209,16 @@ def check_password(c,password,counter,bf):
     # If some brute force letters should be added, check the password with them
     else:
         # Get whether the password worked and if it did the correct password
-        worked,correct = test_password(password, c, bf)
+        worked,correct = test_password_options(h, c, bf)
         if worked:
             print("The password is: {}. {} brute force letter(s) needed to be added to crack it.".format(correct, bf))
             return True
 
 
 # A function to check the password options for slow speed and double up passwords
-def very_slow_crack(hash):
+def very_slow_crack(h):
     # First run slow_crack to go through the one word options - if it succeeds, it will log out info and we're done
-    if slow_crack(hash):
+    if slow_crack(h):
         return True
     # If it fails, we go to two word options
     counter = 0
@@ -260,8 +270,8 @@ def very_slow_crack(hash):
             for wo in wordoCombos:
                 for wi in wordiCombos:
                     c = wo+wi
-                    # Check each password
-                    if check_password(c,password,counter,bf):
+                    # Check each password to see if its the hash
+                    if check_hash(c,h,counter,bf):
                         return True
     		# Clear the combo arrays for the next word
             wordoCombos = []
@@ -269,9 +279,9 @@ def very_slow_crack(hash):
         return False
 
 # A function to check with the password options for slow speed
-def slow_crack(password):
+def slow_crack(h):
     counter = 0
-    # Test the password with up to num brute force letters after it (could be 0)
+    # Test the hash with up to num brute force letters after it (could be 0)
     for bf in range(0,num+1):
         print("Trying passwords with {} brute force letter(s) on the end.".format(bf))
         # Loop through the words
@@ -298,17 +308,17 @@ def slow_crack(password):
     		# Output the passwords created from this word
             for c in combinations:
                 # Check each password
-                if check_password(c,password,counter,bf):
+                if check_hash(c,h,counter,bf):
                     return True
     		# Clear the array for the next word
             combinations = []
     return False
 
 # A function to check the password options for fast speed and double up passwords
-def medium_crack(password):
+def medium_crack(h):
     # First run fast_crack to check the one word options
     print("Trying one word options...")
-    if fast_crack(password):
+    if fast_crack(h):
         return True
     print("Trying two word options...")
     # If it fails, we go to two word options
@@ -366,7 +376,7 @@ def medium_crack(password):
                         # Combine to make password and check
                         c = wo+wi
                         # Check each password
-                        if check_password(c,password,counter,bf):
+                        if check_hash(c,h,counter,bf):
                             return True
         		# Clear the combo arrays for the next word
                 wordoCombos = []
@@ -374,9 +384,9 @@ def medium_crack(password):
     return False
 
 # A function to check with the password options for fast speed
-def fast_crack(password):
+def fast_crack(h):
     counter = 0
-    # Test the password with up to num brute force letters after it (could be 0)
+    # Test the hash with up to num brute force letters after it (could be 0)
     for bf in range(0,num+1):
         print("Trying passwords with {} brute force letter(s) on the end.".format(bf))
         # Loop through the words
@@ -401,7 +411,7 @@ def fast_crack(password):
     		# Output the passwords created from this word
             for c in combinations:
                 # Check each password
-                if check_password(c,password,counter,bf):
+                if check_hash(c,h,counter,bf):
                     return True
             combinations = []
     return False
@@ -423,13 +433,13 @@ def format_time(time):
         return "~" + str(time) + " seconds"
     
 # START AREA
-print("Welcome to the password cracking test tool!")
+print("Welcome to the hash cracking test tool!")
 print("Note that the order of operations for this tool is as follows: ")
 print("    1) Try one-word passwords with substitutions")
 print("    2) Try one-word passwords with substitutions and Brute Force letters")
 print("    3) Try two-word passwords with substitutions")
 print("    4) Try two-word passwords with substitutions and Brute Force letters")
-print("(Not all of these trials are used by every speed of password cracking.)")
+print("(Not all of these trials are used by every speed of hash cracking.)")
 
 
 ## Get the hash to crack ##
@@ -444,7 +454,7 @@ for algo in hashlib.algorithms_available:
 print (algoList)
 # Keep asking until the user enters a supported hash algorithm
 while not algorithm.lower() in hashlib.algorithms_available and not algorithm.lower() == allOption.lower():
-    algorithm = input("Enter a supported algorithm or {}:".format(allOption))
+    algorithm = input("Enter a supported algorithm ({} coming soon!):".format(allOption))
 
 ## Get which mode to use ##
 # The mode the user inputs
@@ -475,35 +485,34 @@ print("\n")
 num = int(inputNum)
 
 
-
 # We have the mode and the salt info -- setup
 start = time.time()
 
 if mode == "slow" or mode == "s":
     # Slow mode
     print("Starting Slow Mode")
-    if slow_crack(password):
+    if slow_crack(hashToCrack):
         print("It was found after {}.".format(format_time(time.time() - start)))
     else:
         print("Password not found after {}.".format(format_time(time.time() - start)))
 elif mode == "medium" or mode == "m":
     # Medium mode
     print("Starting Medium Mode")
-    if medium_crack(password):
+    if medium_crack(hashToCrack):
         print("It was found after {}.".format(format_time(time.time() - start)))
     else:
         print("Password not found after {}.".format(format_time(time.time() - start)))
 elif mode == "fast" or mode == "f":
     # Fast mode
     print("Starting Fast Mode")
-    if fast_crack(password):
+    if fast_crack(hashToCrack):
         print("It was found after {}.".format(format_time(time.time() - start)))
     else:
         print("Password not found after {}.".format(format_time(time.time() - start)))
 elif mode == "very" or mode == "very slow" or mode == "veryslow" or mode == "v" or mode == "vs":
     # Very fast  mode
     print("Starting Very Slow Mode")
-    if very_slow_crack(password):
+    if very_slow_crack(hashToCrack):
         print("It was found after {}.".format(format_time(time.time() - start)))
     else:
         print("Password not found after {}.".format(format_time(time.time() - start)))
