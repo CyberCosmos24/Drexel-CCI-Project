@@ -5,19 +5,26 @@
 import time
 import math
 
-# SLOW INFO
+# VERY SLOW INFO
 # Avg options per character = 137/42 = 3.25 guesses/character
 # Avg letter per password = 8 letters/word
-# Avg Max Time per Word = 3.25 ^ 8 = 12,450 guesses/word
-# Total words = 12,450 * 10,000 = 124,500,000
-# Guesses are comprised of two words so total guesses = 124,500,000 ^2
+# Avg Max Time per Word = 3.25 ^ 16 = 154,929,400 guesses/word
+# Guesses total = 1,549,294,000,000
+# Time total (at 300,000 guesses/sec) = Days
 
-# MEDIUM INFO
+# SLOW INFO
 # Avg options per character = 137/42 = 3.25 guesses/character
 # Avg letter per password = 8 letters/word
 # Avg Max Time per Word = 3.25 ^ 8 = 12,450 guesses/word
 # Total guesses = 12,450 * 10,000 = 124,500,000
 # Total time (at 300,000 guesses/sec) = ~7 min
+
+# MEDIUM INFO
+# Avg options per character = 87/53 = 1.6 guesses/character
+# Avg letter per password = 8 letters/word
+# Avg options per password = 1.6 ^ 16 = 1845 guesses/word (bc two password strung together)
+# Guesses total = 1845 * 10,000 = 18,450,000
+# Total time (at 300,000 guesses/sec) = <2 min
 
 # FAST INFO
 # The avg options per character = 87/53 = 1.6 guesses/character
@@ -26,7 +33,7 @@ import math
 # est options total = 43 * 10,000 = 430,000 guesses
 # Total time (at 300,000 guesses/sec) = ~1.43 seconds
 
-# VERY FAST INFO
+# VERY FAST INFO -- To be removed
 # 10,000 guesses
 # Total time (at 300,000 guesses/sec) = 1/3 sec
 
@@ -351,15 +358,17 @@ mode = ""
 
 print("|  Option   | Key | Password Variations | Time Est  |")
 print("|-----------|-----|---------------------|-----------|")
-print("|   Slow    |  S  |    15.5+ Billion    |  UNKNOWN  |") # Done
-print("|  Medium   |  M  |    124.5 Million    |  <10 Min. |") # Done
-print("|   Fast    |  F  |    430 Thousand     |  <1 Min.  |") # Done
-print("| Very Fast |  V  |     10 Thousand     |  <1 Sec.  |\n") # Done
+print("| Very Slow |  V  |    15.5+ Billion    |  UNKNOWN  |")
+print("|   Slow    |  S  |    124.5 Million    |  ~7 Min.  |") 
+print("|  Medium   |  M  |    18.45 Million    |  <2 Min.  |")
+print("|   Fast    |  F  |    430 Thousand     | <1.5 Sec. |")
+
+#print("| Very Fast |  V  |     10 Thousand     |  <1 Sec.  |\n") # Done
 # The accepted modes
 accModes = ["slow","s","medium","m","fast","f","very fast","veryfast","very","v"]
 # While the mode is not accepted
 while not mode in accModes:
-    mode = input("What mode would you like to use (S,M,F,V): ").lower()
+    mode = input("What mode would you like to use (V,S,M,F): ").lower()
 print("\n")
 # We have the mode -- setup
 start = time.time()
