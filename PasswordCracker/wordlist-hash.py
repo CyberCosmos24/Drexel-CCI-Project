@@ -6,6 +6,7 @@ import time
 import math
 import string
 import itertools
+import hashlib
 
 # VERY SLOW INFO
 # Avg options per character = 137/42 = 3.25 guesses/character
@@ -35,9 +36,10 @@ import itertools
 # est options total = 43 * 10,000 = 430,000 guesses
 # Total time (at 300,000 guesses/sec) = ~1.43 seconds
 
-# This is the number of brute force letters to add to the end of each password
-# It must be declared here so the functions can access it. It is set in the input section
+# This is the number of brute force letters to add to the end of each password and the hash algorithm to use
+# They must be declared here so the functions can access them. They are set in the input section
 num = 0
+algorithm = ""
 
 # The options that each character can be substituted for in slow and very slow modes
 subs_s = { 
@@ -180,6 +182,7 @@ def test_password(password, guess, num_bf):
                 return True, new_guess
 	# None of the guesses worked
     return False, "Failed"
+
 def check_password(c,password,counter,bf):
     # If no brute force letters should be added, just check the password
     if bf == 0:
@@ -201,10 +204,11 @@ def check_password(c,password,counter,bf):
             print("The password is: {}. {} brute force letter(s) needed to be added to crack it.".format(correct, bf))
             return True
 
+
 # A function to check the password options for slow speed and double up passwords
-def very_slow_crack(password):
+def very_slow_crack(hash):
     # First run slow_crack to go through the one word options - if it succeeds, it will log out info and we're done
-    if slow_crack(password):
+    if slow_crack(hash):
         return True
     # If it fails, we go to two word options
     counter = 0
@@ -427,14 +431,20 @@ print("    3) Try two-word passwords with substitutions")
 print("    4) Try two-word passwords with substitutions and Brute Force letters")
 print("(Not all of these trials are used by every speed of password cracking.)")
 
-# Get the users hash
-password = input("Enter the hash you'd like to crack: ")
-print("\n")
 
+## Get the hash to crack ##
+hashToCrack = input("Hash to Crack: ")
 
-# Get the users hash type
-password = input("Enter the hash algorithm to use: ")
-print("\n")
+## Hash Algorithm ##
+allOption = "UNKNOWN"
+# Print out the supported hash algorithms for this platform
+algoList = "Supported Hash Algorithms:"
+for algo in hashlib.algorithms_available:
+	algoList += " " + algo.upper()
+print (algoList)
+# Keep asking until the user enters a supported hash algorithm
+while not algorithm.lower() in hashlib.algorithms_available and not algorithm.lower() == allOption.lower():
+    algorithm = input("Enter a supported algorithm or {}:".format(allOption))
 
 ## Get which mode to use ##
 # The mode the user inputs
