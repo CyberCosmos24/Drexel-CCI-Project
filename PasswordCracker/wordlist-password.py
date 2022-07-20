@@ -38,7 +38,7 @@ import math
 # Total time (at 300,000 guesses/sec) = 1/3 sec
 
 # The options that each character can be substituted for in medium and slow modes
-subs_ms = { 
+subs_s = { 
 	"a": ["a","A","@","4"],
 	"b": ["b","B"],
 	"c": ["c","C"],
@@ -163,11 +163,11 @@ words_num = []
 with open("PasswordCracker/num.txt") as wordlist:
     words_num = wordlist.readlines()
     
-# A function to check the password options for slow speed -- double up passwords
-def slow_crack(password):
+# A function to check the password options for slow speed and double up passwords
+def very_slow_crack(password):
     # First run medium_crack to go through the one word options - if it succeeds, it will log out info and we're done
-    #if medium_crack(password):
-     #   return True
+    if medium_crack(password):
+        return True
     # If it fails, we go to two word options
     counter = 0
     # Loop through the words
@@ -178,7 +178,7 @@ def slow_crack(password):
             wordi = wordi.lower().strip('\n')
     		#print("Trying " + word + " with various substitutions.")
     		# Set the start of each combination to be the subs for the first letter
-            wordiCombos = subs_ms[wordi[0]]
+            wordiCombos = subs_s[wordi[0]]
     		# Init a temp array to hold guesses each letter
             wordiTemp = []
     		# Loop through the remaining letters
@@ -186,7 +186,7 @@ def slow_crack(password):
     			# Loop through the combinations in the array
                 for j in range(0,len(wordiCombos)):
     				# Loop through the substitutions for this letter
-                    for sub in subs_ms[wordi[i]]:
+                    for sub in subs_s[wordi[i]]:
     					# Add a combo that is the current combo + the current substitution
                         wordiTemp.append(wordiCombos[j] + sub)
     			# Store the current combinations and clear the temp array
@@ -198,7 +198,7 @@ def slow_crack(password):
             # Change the word to lowercase and remove any newlines
             wordo = wordo.lower().strip('\n')
     		# Set the start of each combination to be the subs for the first letter
-            wordoCombos = subs_ms[wordo[0]]
+            wordoCombos = subs_s[wordo[0]]
     		# Init a temp array to hold guesses each letter
             wordoTemp = []
     		# Loop through the remaining letters
@@ -206,7 +206,7 @@ def slow_crack(password):
     			# Loop through the combinations in the array
                 for j in range(0,len(wordoCombos)):
     				# Loop through the substitutions for this letter
-                    for sub in subs_ms[wordo[i]]:
+                    for sub in subs_s[wordo[i]]:
     					# Add a combo that is the current combo + the current substitution
                         wordoTemp.append(wordoCombos[j] + sub)
     			# Store the current combinations and clear the temp array
@@ -236,8 +236,8 @@ def slow_crack(password):
             wordiCombos = []
         return False
 
-# A function to check with the password options for medium speed
-def medium_crack(password):
+# A function to check with the password options for slow speed
+def slow_crack(password):
     counter = 0
     # Loop through the words
     for word in words_let:
@@ -245,7 +245,7 @@ def medium_crack(password):
         word = word.lower().strip('\n')
 		#print("Trying " + word + " with various substitutions.")
 		# Set the start of each combination to be the subs for the first letter
-        combinations = subs_ms[word[0]]
+        combinations = subs_s[word[0]]
 		# Init a temp array to hold guesses each letter
         temp = []
 		# Loop through the remaining letters
@@ -253,7 +253,7 @@ def medium_crack(password):
 			# Loop through the combinations in the array
             for j in range(0,len(combinations)):
 				# Loop through the substitutions for this letter
-                for sub in subs_ms[word[i]]:
+                for sub in subs_s[word[i]]:
 					# Add a combo that is the current combo + the current substitution
                     temp.append(combinations[j] + sub)
 			# Store the current combinations and clear the temp array
@@ -276,6 +276,76 @@ def medium_crack(password):
 		# Clear the array for the next word
         combinations = []
     return False
+
+# A function to check the password options for fast speed and double up passwords
+def medium_crack(password):
+    # If it fails, we go to two word options
+    counter = 0
+    # Loop through the words
+    for wordo in words_num:
+        # Loop throught the words again so we can string two words together
+        for wordi in words_num:
+    		# Change the word to lowercase and remove any newlines
+            wordi = wordi.lower().strip('\n')
+    		#print("Trying " + word + " with various substitutions.")
+    		# Set the start of each combination to be the subs for the first letter
+            wordiCombos = subs_f[wordi[0]]
+    		# Init a temp array to hold guesses each letter
+            wordiTemp = []
+    		# Loop through the remaining letters
+            for i in range(1,len(wordi)):
+    			# Loop through the combinations in the array
+                for j in range(0,len(wordiCombos)):
+    				# Loop through the substitutions for this letter
+                    for sub in subs_f[wordi[i]]:
+    					# Add a combo that is the current combo + the current substitution
+                        wordiTemp.append(wordiCombos[j] + sub)
+    			# Store the current combinations and clear the temp array
+                wordiCombos = wordiTemp
+                wordiTemp = []
+
+            counter += 1
+            
+            # Change the word to lowercase and remove any newlines
+            wordo = wordo.lower().strip('\n')
+    		# Set the start of each combination to be the subs for the first letter
+            wordoCombos = subs_f[wordo[0]]
+    		# Init a temp array to hold guesses each letter
+            wordoTemp = []
+    		# Loop through the remaining letters
+            for i in range(1,len(wordo)):
+    			# Loop through the combinations in the array
+                for j in range(0,len(wordoCombos)):
+    				# Loop through the substitutions for this letter
+                    for sub in subs_f[wordo[i]]:
+    					# Add a combo that is the current combo + the current substitution
+                        wordoTemp.append(wordoCombos[j] + sub)
+    			# Store the current combinations and clear the temp array
+                wordoCombos = wordoTemp
+                wordoTemp = []
+            # Increase the counter
+            counter += 1
+    		# Combine all of the attempts
+            for wo in wordoCombos:
+                for wi in wordiCombos:
+                    # Combine to make password and check
+                    if wo+wi == password:
+                        if counter > 100:
+                            counter = math.ceil(counter / 100) * 100
+                        elif counter > 10:
+                            counter = math.ceil(counter / 10) * 10
+                        else:
+                            print("The password is: {}. It is a variation on one of the top 10 most common passwords.".format(wo+wi))
+                            return True
+                        print("The password is: {}. It is a variation on one of the top {} most common passwords.".format(wo+wi, counter))
+                        return True
+			# Enable for more output
+                    #else:
+                        #print("Trying " + wo+wi)
+    		# Clear the combo arrays for the next word
+            wordoCombos = []
+            wordiCombos = []
+        return False
 
 # A function to check with the password options for fast speed
 def fast_crack(password):
@@ -319,7 +389,7 @@ def fast_crack(password):
     return False
 
 # A function to check with the 10,000 most common passwords
-def very_fast_crack(password):
+def medium_crack(password):
     counter = 0
     for word in words_num:
         if password == word:
@@ -358,14 +428,14 @@ mode = ""
 
 print("|  Option   | Key | Password Variations | Time Est  |")
 print("|-----------|-----|---------------------|-----------|")
-print("| Very Slow |  V  |    15.5+ Billion    |  UNKNOWN  |")
+print("| Very Slow |  V  |    15.5+ Billion    |   Days    |")
 print("|   Slow    |  S  |    124.5 Million    |  ~7 Min.  |") 
 print("|  Medium   |  M  |    18.45 Million    |  <2 Min.  |")
 print("|   Fast    |  F  |    430 Thousand     | <1.5 Sec. |")
 
 #print("| Very Fast |  V  |     10 Thousand     |  <1 Sec.  |\n") # Done
 # The accepted modes
-accModes = ["slow","s","medium","m","fast","f","very fast","veryfast","very","v"]
+accModes = ["slow","s","medium","m","fast","f","very slow","veryslow","very","v","vs"]
 # While the mode is not accepted
 while not mode in accModes:
     mode = input("What mode would you like to use (V,S,M,F): ").lower()
@@ -394,10 +464,10 @@ elif mode == "fast" or mode == "f":
         print("It was found after {}.".format(format_time(time.time() - start)))
     else:
         print("Password not found after {}.".format(format_time(time.time() - start)))
-elif mode == "very" or mode == "very fast" or mode == "veryfast" or mode == "v":
+elif mode == "very" or mode == "very slow" or mode == "veryslow" or mode == "v" or mode == "vs":
     # Very fast  mode
-    print("Starting Very Fast Mode")
-    if very_fast_crack(password):
+    print("Starting Very Slow Mode")
+    if very_slow_crack(password):
         print("It was found after {}.".format(format_time(time.time() - start)))
     else:
         print("Password not found after {}.".format(format_time(time.time() - start)))
