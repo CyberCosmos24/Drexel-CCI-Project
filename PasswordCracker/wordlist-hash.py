@@ -426,8 +426,14 @@ print("    2) Try one-word passwords with substitutions and Brute Force letters"
 print("    3) Try two-word passwords with substitutions")
 print("    4) Try two-word passwords with substitutions and Brute Force letters")
 print("(Not all of these trials are used by every speed of password cracking.)")
-# Get the users password
-password = input("Enter the password you'd like to crack: ")
+
+# Get the users hash
+password = input("Enter the hash you'd like to crack: ")
+print("\n")
+
+
+# Get the users hash type
+password = input("Enter the hash algorithm to use: ")
 print("\n")
 
 ## Get which mode to use ##
