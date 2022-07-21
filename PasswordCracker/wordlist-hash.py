@@ -158,12 +158,12 @@ subs_f = {
 
 # To run this file directly change:     with open("PasswordCracker/let.txt") -> with open("let.txt")
 words_let = []
-with open("let.txt") as wordlist:
+with open("PasswordCracker/let.txt") as wordlist:
     words_let = wordlist.readlines()
 
 # To run this file directly change:     with open("PasswordCracker/num.txt") -> with open("num.txt")
 words_num = []
-with open("num.txt") as wordlist:
+with open("PasswordCracker/num.txt") as wordlist:
     words_num = wordlist.readlines()
 
 
@@ -416,6 +416,45 @@ def fast_crack(h):
             combinations = []
     return False
 
+# Attempt to crack the hash using the input mode
+def crack_hash(mode):
+    if mode == "slow" or mode == "s":
+        # Slow mode
+        print("Starting Slow Mode with hash algorithm {}.".format(algorithm))
+        if slow_crack(hashToCrack):
+            print("It was found after {}.".format(format_time(time.time() - start)))
+            return True
+        else:
+            print("Password not found after {}.".format(format_time(time.time() - start)))
+            return False
+    elif mode == "medium" or mode == "m":
+        # Medium mode
+        print("Starting Medium Mode with hash algorithm {}.".format(algorithm))
+        if medium_crack(hashToCrack):
+            print("It was found after {}.".format(format_time(time.time() - start)))
+            return True
+        else:
+            print("Password not found after {}.".format(format_time(time.time() - start)))
+            return False
+    elif mode == "fast" or mode == "f":
+        # Fast mode
+        print("Starting Fast Mode with hash algorithm {}.".format(algorithm))
+        if fast_crack(hashToCrack):
+            print("It was found after {}.".format(format_time(time.time() - start)))
+            return True
+        else:
+            print("Password not found after {}.".format(format_time(time.time() - start)))
+            return False
+    elif mode == "very" or mode == "very slow" or mode == "veryslow" or mode == "v" or mode == "vs":
+        # Very slow  mode
+        print("Starting Very Slow Mode with hash algorithm {}.".format(algorithm))
+        if very_slow_crack(hashToCrack):
+            print("It was found after {}.".format(format_time(time.time() - start)))
+            return True
+        else:
+            print("Password not found after {}.".format(format_time(time.time() - start)))
+            return False
+
 def format_time(time):
     # Round the time to be nicer if it's big enough
     if time >= 0.0001:
@@ -440,39 +479,40 @@ print("    2) Try one-word passwords with substitutions and Brute Force letters"
 print("    3) Try two-word passwords with substitutions")
 print("    4) Try two-word passwords with substitutions and Brute Force letters")
 print("(Not all of these trials are used by every speed of hash cracking.)")
-
+print("")
 
 ## Get the hash to crack ##
 hashToCrack = input("Hash to Crack: ")
-
+print("")
 ## Hash Algorithm ##
 allOption = "UNKNOWN"
-# Print out the supported hash algorithms for this platform
-algoList = "Supported Hash Algorithms:"
-for algo in hashlib.algorithms_available:
-	algoList += " " + algo.upper()
-print (algoList)
+
 # Keep asking until the user enters a supported hash algorithm
 while not algorithm.lower() in hashlib.algorithms_available and not algorithm.lower() == allOption.lower():
-    algorithm = input("Enter a supported algorithm ({} coming soon!):".format(allOption))
-
+    # Print out the supported hash algorithms for this platform
+    algoList = "Supported Hash Algorithms:"
+    for algo in hashlib.algorithms_available:
+	    algoList += " " + algo.upper()
+    print (algoList)
+    # Ask the user which one they want to try
+    algorithm = input("Enter a supported algorithm or {}:".format(allOption))
+print("")
 ## Get which mode to use ##
 # The mode the user inputs
 mode = ""
-
-print("|  Option   | Key | Password Variations | Time Est  |")
-print("|-----------|-----|---------------------|-----------|")
-print("| Very Slow |  V  |    15.5+ Billion    |   Days    |")
-print("|   Slow    |  S  |    124.5 Million    |  ~7 Min.  |") 
-print("|  Medium   |  M  |    18.45 Million    |  ~2 Min.  |")
-print("|   Fast    |  F  |    430 Thousand     |  ~2 Sec.  |")
 
 # The accepted modes
 accModes = ["slow","s","medium","m","fast","f","very slow","veryslow","very","v","vs"]
 # While the mode is not accepted
 while not mode in accModes:
+    print("|  Option   | Key | Password Variations | Time Est  |")
+    print("|-----------|-----|---------------------|-----------|")
+    print("| Very Slow |  V  |    15.5+ Billion    |   Days    |")
+    print("|   Slow    |  S  |    124.5 Million    |  ~7 Min.  |") 
+    print("|  Medium   |  M  |    18.45 Million    |  ~2 Min.  |")
+    print("|   Fast    |  F  |    430 Thousand     |  ~2 Sec.  |")
     mode = input("What mode would you like to use (V,S,M,F): ").lower()
-print("\n")
+print("")
 
 print("NOTE: Adding brute force letters can significantly increase crack time.")
 # The input from the user
@@ -480,7 +520,7 @@ inputNum = ""
 # While the inputNum is not accepted (it will only be accepted for 0 and above)
 while not inputNum.isnumeric():
     inputNum = input("How many Brute Force letters do you want to add onto the end: ")
-print("\n")
+print("")
 # The number of bf letters
 num = int(inputNum)
 
@@ -488,31 +528,14 @@ num = int(inputNum)
 # We have the mode and the salt info -- setup
 start = time.time()
 
-if mode == "slow" or mode == "s":
-    # Slow mode
-    print("Starting Slow Mode")
-    if slow_crack(hashToCrack):
-        print("It was found after {}.".format(format_time(time.time() - start)))
-    else:
-        print("Password not found after {}.".format(format_time(time.time() - start)))
-elif mode == "medium" or mode == "m":
-    # Medium mode
-    print("Starting Medium Mode")
-    if medium_crack(hashToCrack):
-        print("It was found after {}.".format(format_time(time.time() - start)))
-    else:
-        print("Password not found after {}.".format(format_time(time.time() - start)))
-elif mode == "fast" or mode == "f":
-    # Fast mode
-    print("Starting Fast Mode")
-    if fast_crack(hashToCrack):
-        print("It was found after {}.".format(format_time(time.time() - start)))
-    else:
-        print("Password not found after {}.".format(format_time(time.time() - start)))
-elif mode == "very" or mode == "very slow" or mode == "veryslow" or mode == "v" or mode == "vs":
-    # Very fast  mode
-    print("Starting Very Slow Mode")
-    if very_slow_crack(hashToCrack):
-        print("It was found after {}.".format(format_time(time.time() - start)))
-    else:
-        print("Password not found after {}.".format(format_time(time.time() - start)))
+# If the user doesn't know what hash algorithm
+if algorithm == allOption:
+    # Try them all
+    for algo in hashlib.algorithms_available:
+        algorithm = algo
+        crack_hash(mode)
+        print("")
+# If the user does know what hash algorithm,
+else:
+    # Just try it
+    crack_hash(mode)
