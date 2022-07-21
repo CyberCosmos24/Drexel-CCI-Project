@@ -8,8 +8,8 @@ This is a muti-tool that give you the basic tools to help you with enumuration.
 ## Features 
 - Port Scanner 
 - IP-Lookup
-- Password Cracker
-- Hash Cracker
+- Password Crackers (Brute Force and Wordlist)
+- Hash Crackers (Brute Force and Wordlist)
 - HTTP Requests
 
 
