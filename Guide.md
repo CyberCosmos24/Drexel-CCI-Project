@@ -2,8 +2,9 @@
 
 
 ## Requirements 
--  Debian / WSL 
+-  Debian OS / WSL 
 - python3 
+
 
 ## Installing 
 
