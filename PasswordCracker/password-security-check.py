@@ -105,9 +105,6 @@ def check_common(password):
         if c+"\n" in words_let:
             print(".")
             return True, words_let.index(c+"\n")
-        elif c in words_let:
-            print("..")
-            return True, words_let.index(c)
     combinations = []
     return False, 0
 
@@ -160,6 +157,7 @@ def break_up_password(password):
     indices = []
     while True:
         for i in range(1,n):
+            print(".")
             passW = []
             # Construct the word up to the current letter
             for j in range(0,i):
@@ -222,7 +220,6 @@ else:
         print("\n{} could be cracked in {}.".format(password,format_time(total_time)))
     else:
         remainder = password
-    
     # Calculate the time to brute force what's left of the password (could be the whole password)
     t = format_time(calculate_bf_time(remainder))
     print("    '{}' is not one one of the most common passwords. Thus, a Brute Force method would be needed.".format(remainder))
